@@ -10,7 +10,7 @@ class LimitService:
         self.config_service = config_service
         self.db = db_session
 
-    def check_limit(self, config, access_id):
+    def check_limit(self, config: str, access_id):
         req_time = time.time()
 
         for cfg in self.config_service.config_map[config]:

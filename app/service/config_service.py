@@ -1,7 +1,12 @@
+from pathlib import Path
+
 
 class ConfigService:
     config_map = {}
 
     def make_config(self):
-        # TODO: read config from file
-        self.config_map['email'] = [(60, 1), (3600, 2), (86400, 5)]
+        with open(Path('config.txt')) as f:
+            for line in f.read().splitlines():
+                stem = line.split(",")
+                self.config_map[stem[0]] = [tuple(map(int, v.split(":"))) for v in stem[1:]]
+        print(self.config_map)
