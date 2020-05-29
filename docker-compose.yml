@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+
+  capem-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: capem
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "5432:5432"
+
+  capem-adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
