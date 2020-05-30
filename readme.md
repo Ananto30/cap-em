@@ -121,7 +121,7 @@ DB_URL=sqlite:///capem-ut.db python -m pytest --cov=./app
 
 There's several way to run locally for development (though this an independent and complete service, encouraged to use out of the box, but you may modify on your own).
 
-You can follow the [Installation-Dev](##installation-dev) to run locally, but for solely development purpose you can run like this - 
+You can follow the [Installation-Dev](#installation-dev) to run locally, but for solely development purpose you can run like this - 
 
 ```bash
 pip install -r requirements.txt
@@ -135,7 +135,7 @@ This uses the SQLite DB, to change that, use `DB_URL` env variable.
 
 Need to optimize Docker and indexing DB (not sure).
 
-But still you can use in production out of the box. Preferred way is to use the [Docker](#docker-[out-of-the-box-deployment]).
+But still you can use in production out of the box. Preferred way is to use the [Docker](#-docker-[out-of-the-box-deployment]).
 
 
 ## TODO
