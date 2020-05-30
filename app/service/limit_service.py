@@ -13,18 +13,20 @@ class LimitService:
         self.config_service = config_service
         self.db = db_session
 
-    def check_limit(self, config: str, access_id: str):
+    def check_limit(self, config: str, access_id: str) -> (bool, int):
         req_time = time.time()
 
         for cfg in self.config_service.config_map[config]:
             start_time = req_time - cfg[0]
             c = self.db.query(History) \
                 .filter(History.access_id == access_id) \
-                .filter(History.access_at >= start_time) \
-                .count()
-            if c >= cfg[1]:
-                return False
-        return True
+                .filter(History.access_at >= start_time)
+
+            if c.count() >= cfg[1]:
+                item = c.first()
+                return False, int(cfg[0] - (req_time - item.access_at))
+
+        return True, 0
 
     def add_usage(self, config: str, access_id: str):
         req_time = time.time()
