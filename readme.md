@@ -135,7 +135,7 @@ This uses the SQLite DB, to change that, use `DB_URL` env variable.
 
 Need to optimize Docker and indexing DB (not sure).
 
-But still you can use in production out of the box. Preferred way is to use the [Docker](#-docker-[out-of-the-box-deployment]).
+But still you can use in production out of the box. Preferred way is to use the [Docker](#docker-[-out-of-the-box-deployment-]).
 
 
 ## TODO
