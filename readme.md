@@ -51,7 +51,7 @@ email,60:2,3600:5,86400:6
 ```
 What does it mean? The first one, `email` is the resource. Then `60:2` means in 60 seconds the limit is 2 to change/access the resource. The rest are configs for different time intervals and limits. Please follow the format as it is. The **time increases in ascending order**. And `60:5,3600:2` doesn't make sense, yet it will work. 
 
-Like the problemd mentioned [above](#feature-&-principle). The configuration will be - 
+Like the problemd mentioned [above](#feature--principle). The configuration will be - 
 ```
 email,3600:1,86400:2,2592000:5
 ```
@@ -135,7 +135,7 @@ This uses the SQLite DB, to change that, use `DB_URL` env variable.
 
 Need to optimize Docker and indexing DB (not sure).
 
-But still you can use in production out of the box. Preferred way is to use the [Docker](#docker-[-out-of-the-box-deployment-]).
+But still you can use in production out of the box. Preferred way is to use the [Docker](#docker-out-of-the-box-deployment).
 
 
 ## TODO
