@@ -1,3 +1,5 @@
+import logging
+
 from flask import Flask
 from flask_restful import Api
 
@@ -6,8 +8,11 @@ from db.base import Session
 from service.config_service import ConfigService
 from service.limit_service import LimitService
 
-app = Flask(__name__)
+app = Flask("cap-em")
 api = Api(app)
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(format='%(asctime)s | %(process)d | %(module)s : %(message)s', level=logging.INFO)
 
 # Initialize services and dependency injections
 session = Session()
