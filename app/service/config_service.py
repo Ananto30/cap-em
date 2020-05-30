@@ -10,7 +10,7 @@ class ConfigService:
         ConfigService._instance = self
         self.config_location = config_location
 
-    def make_config(self):
+    def load_config(self):
         with open(Path(self.config_location)) as f:
             for line in f.read().splitlines():
                 stem = line.split(",")

@@ -11,7 +11,7 @@ class Config(Resource):
     # TODO: IMPORTANT!! For now the cache is in memory, so we can't update cache in all workers,
     #  may be a candidate of redis/memcached
     # def post(self):
-    #     self.config_service.make_config()
+    #     self.config_service.load_config()
     #     return
 
     def get(self):

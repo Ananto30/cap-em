@@ -18,6 +18,6 @@ logging.basicConfig(format='%(asctime)s | %(process)d | %(module)s : %(message)s
 session = Session()
 config_service = ConfigService()
 limit_service = LimitService(config_service, session)
-config_service.make_config()
+config_service.load_config()
 controller = Controller(limit_service, config_service, api)
 controller.register_routes()

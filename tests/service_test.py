@@ -23,7 +23,7 @@ def test_instance():
 
 def test_load_config():
     assert (config_service.config_map == {})
-    config_service.make_config()
+    config_service.load_config()
     assert (config_service.config_map == {'download': [(60, 3), (3600, 5), (86400, 8)],
                                           'email': [(5, 2), (20, 4), (40, 6)]
                                           })
