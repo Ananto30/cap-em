@@ -1,7 +1,7 @@
 import time
 
-from db.base import Session
-from model.history import History
+from app.db.base import Session
+from app.model.history import History
 from .config_service import ConfigService
 
 
@@ -24,7 +24,9 @@ class LimitService:
 
             if c.count() >= cfg[1]:
                 item = c.first()
-                return False, int(cfg[0] - (req_time - item.access_at))
+                # Converting float to int will be always floored, so add 1
+                access_in = int(cfg[0] - (req_time - item.access_at)) + 1
+                return False, access_in
 
         return True, 0
 
@@ -41,4 +43,4 @@ class LimitService:
 
     @staticmethod
     def get_instance():
-        return ConfigService._instance
+        return LimitService._instance

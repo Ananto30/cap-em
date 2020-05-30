@@ -3,10 +3,10 @@ import logging
 from flask import Flask
 from flask_restful import Api
 
-from api.controller import Controller
-from db.base import Session
-from service.config_service import ConfigService
-from service.limit_service import LimitService
+from app.api.controller import Controller
+from app.db.base import Session
+from app.service.config_service import ConfigService
+from app.service.limit_service import LimitService
 
 app = Flask("cap-em")
 api = Api(app)

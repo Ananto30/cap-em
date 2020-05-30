@@ -1,5 +1,5 @@
-from api.config_api import Config
-from api.limit_api import CheckLimit, AddUsage
+from app.api.config_api import Config
+from app.api.limit_api import CheckLimit, AddUsage
 
 
 class Controller:

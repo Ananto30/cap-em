@@ -1,5 +1,10 @@
-from db.base import Base, engine
-from model.history import History
+from app.db.base import Base, engine
+from app.model.history import History
 
-History
-Base.metadata.create_all(engine)
+
+def create_table():
+    History
+    Base.metadata.create_all(engine)
+
+
+create_table()

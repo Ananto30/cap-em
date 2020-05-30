@@ -6,11 +6,12 @@ class ConfigService:
     _instance = None
     config_map = {}
 
-    def __init__(self):
+    def __init__(self, config_location='config/config.txt'):
         ConfigService._instance = self
+        self.config_location = config_location
 
     def make_config(self):
-        with open(Path('config/config.txt')) as f:
+        with open(Path(self.config_location)) as f:
             for line in f.read().splitlines():
                 stem = line.split(",")
                 self.config_map[stem[0]] = [tuple(map(int, v.split(":"))) for v in stem[1:]]

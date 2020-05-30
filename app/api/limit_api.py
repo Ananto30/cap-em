@@ -1,6 +1,6 @@
 from flask_restful import reqparse, Resource
 
-from service.limit_service import LimitService
+from app.service.limit_service import LimitService
 
 
 class CheckLimit(Resource):

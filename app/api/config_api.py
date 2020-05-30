@@ -1,6 +1,6 @@
 from flask_restful import Resource
 
-from service.config_service import ConfigService
+from app.service.config_service import ConfigService
 
 
 class Config(Resource):

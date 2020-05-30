@@ -4,3 +4,5 @@
 *.db
 venv
 __pycache__
+.pytest_cache
+.coverage
