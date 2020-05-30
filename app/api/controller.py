@@ -7,7 +7,6 @@ class Controller:
         self.limit_service = limit_service
         self.config_service = config_service
         self.api = api
-        self.register_routes()
 
     def register_routes(self):
         self.api.add_resource(CheckLimit, '/limit/check', resource_class_kwargs={'limit_service': self.limit_service})
