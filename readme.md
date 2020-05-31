@@ -30,7 +30,7 @@ Change the `DB_URL` as per your relational DB uri.
 
 IMPORTANT!!: Please note that in this case, we are using Gunicorn and we are copying our config file from source directory to app directory, so please remove that file after playing locally, specially before building a docker image, the docker image has a shared volume to work with the file.
 
-Second, you can just use Docker! 😁 Make sure you have changed the `db_url` arg in the `build_docker.sh` file (if you are not using the docker-compose postgres).
+Second, you can just use Docker! 😁 Make sure you have changed the `db_url` arg in the `build_docker.sh` file (if you are not using the docker-compose postgres). [Here](#docker-out-of-the-box-deployment) is the detailed Docker example.
 ```bash
 docker-compose up -d
 sh build_docker.sh
