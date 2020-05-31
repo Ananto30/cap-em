@@ -97,7 +97,6 @@ sh start_docker.sh
 ```
 OR run with this command 
 ```bash
-#!/bin/bash
 docker run --name capem -v $(pwd)/config:/app/config -p 8003:8003 capem/flask
 ```
 Make sure the config file is the proper directory. Should be in `/config`.
