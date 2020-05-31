@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.com/Ananto30/cap-em.svg?branch=master)](https://travis-ci.com/Ananto30/cap-em)
 [![codecov](https://codecov.io/gh/Ananto30/cap-em/branch/master/graph/badge.svg)](https://codecov.io/gh/Ananto30/cap-em)
+[![Requirements Status](https://requires.io/github/Ananto30/cap-em/requirements.svg?branch=master)](https://requires.io/github/Ananto30/cap-em/requirements/?branch=master)
+![GitHub](https://img.shields.io/github/license/Ananto30/cap-em)
 
 The next generation limit tracker! If you are working in a fast growing company (it doesn't matter) you might have faced a product manager with unrealistic configurations 😐This service will help you somehow in that case 😅
 
