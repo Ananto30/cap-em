@@ -1,9 +1,10 @@
 # Cap-em
 
+![GitHub](https://img.shields.io/github/license/Ananto30/cap-em)
 [![Build Status](https://travis-ci.com/Ananto30/cap-em.svg?branch=master)](https://travis-ci.com/Ananto30/cap-em)
 [![codecov](https://codecov.io/gh/Ananto30/cap-em/branch/master/graph/badge.svg)](https://codecov.io/gh/Ananto30/cap-em)
 [![Requirements Status](https://requires.io/github/Ananto30/cap-em/requirements.svg?branch=master)](https://requires.io/github/Ananto30/cap-em/requirements/?branch=master)
-![GitHub](https://img.shields.io/github/license/Ananto30/cap-em)
+![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/ananto30/cap-em?logo=docker)
 
 The next generation limit tracker! If you are working in a fast growing company (it doesn't matter) you might have faced a product manager with unrealistic configurations 😐This service will help you somehow in that case 😅
 
@@ -143,6 +144,15 @@ But still you can use in production out of the box. Preferred way is to use the 
 
 
 ## TODO
+Priority
+- A persistant way for configs? Like redis, so that multiple workers can get the same config
+- Generalize the volume thing, this is somewhat a dependency
+- Local caching is good but how to share the configs with different workers when config get changed
+- Endpoint(s) to up new configs, in bulk or single
+
+Less priority
+- A docker-compose for whole project up in local
 - Add more tests
 - gRPC?
 - Messaging (for event-driven services)
+- Non-relational DB support?
