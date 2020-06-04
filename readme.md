@@ -1,4 +1,4 @@
-# Cap-em
+# Cap'em
 
 ![GitHub](https://img.shields.io/github/license/Ananto30/cap-em)
 [![Build Status](https://travis-ci.com/Ananto30/cap-em.svg?branch=master)](https://travis-ci.com/Ananto30/cap-em)
@@ -6,13 +6,18 @@
 [![Requirements Status](https://requires.io/github/Ananto30/cap-em/requirements.svg?branch=master)](https://requires.io/github/Ananto30/cap-em/requirements/?branch=master)
 ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/ananto30/cap-em?logo=docker)
 
-The next generation limit tracker! If you are working in a fast growing company (it doesn't matter) you might have faced a product manager with unrealistic configurations 😐This service will help you somehow in that case 😅
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/Ananto30/cap-em.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Ananto30/cap-em/alerts/)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/Ananto30/cap-em.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Ananto30/cap-em/context:python)
+[![Maintainability](https://api.codeclimate.com/v1/badges/620b4efcf9e41d74cb00/maintainability)](https://codeclimate.com/github/Ananto30/cap-em/maintainability)
+![Code Climate technical debt](https://img.shields.io/codeclimate/tech-debt/Ananto30/cap-em?logo=Code%20Climate)
 
-Main purpose is to rate-limit or track usage limit of your resources in every configuration possible. Please refer to [Usage](#Usage) for details.
+The next generation limit tracker! If you are working in a fast growing company (it doesn't matter) you might have faced a situation where you need rate limit your api with several configurations. In that case rather rate limiting your API you can use Cap'em as a service to track your resource usage with limiters. 
+
+Please refer to [Usage](#Usage) for details.
 
 ## Feature & Principle
 
-Say you have a resource called Email. You (mostly your product manager) want to limit this email change capacity for users. This is set to twice per day. You are very happy to code with that, now the PM comes again and said twice per day but not more than one per hour, and monthly limit should be 5 🤬 Now Cap-em will come to the rescue! It's an independent service, so you can deploy in your microservices or SOA.
+Say you have a resource called Email. You want to limit this email change capacity for users. This is set to twice per day. You are very happy to code with that, now the requirements come again and said twice per day but not more than one per hour, and monthly limit should be 5 🤬 Now Cap-em will come to the rescue! It's an independent service, so you can deploy in your microservices or SOA.
 
 You can have different configurations like above or as many configs as you like with several resources. All you need is to make a config file, and use the service right away! Please refer to [Usage](#Usage) for details.
 
@@ -49,7 +54,7 @@ It will start running in http://localhost:8003
 
 For now only the REST API's are available to use.
 
-First we will learn to make the config file. An example can be found in the `config/config.txt`. All you need is to edit this file.
+First we need to make the config file. An example can be found in the `config/config.txt`. All you need is to edit this file.
 
 Configurations are like this - 
 ```
@@ -62,6 +67,8 @@ Like the problemd mentioned [above](#feature--principle). The configuration will
 email,3600:1,86400:2,2592000:5
 ```
 So add configurations like this, new configs in new lines. Please note that everything is in **SECONDS**.
+
+### API
 
 Now let's come to the API usage. For checking the limit use this - 
 ```bash
@@ -86,6 +93,11 @@ curl --location --request POST 'localhost:8003/add/usage' \
 After successful `/limit/check` you may `/add/usage`. But be cautious that you don't `/add/usage` without serving your user. The case can be like this - user "dd45bi6" wants to edit the email, you check the limit with `/limit/check`, if they get `has_limit` true, let them edit the email, after successful email change, you increase the resource usage by `/add/usage`.
 
 
+You can also see the configs -
+```bash
+curl --location --request GET 'localhost:8003/config'
+```
+
 ## Docker [Out of the box deployment]
 
 This is the much preferred way to use the service out of the box. And kind of production ready. Just make sure to change the `ARG db_url` in `Dockerfile` to your expected DB, then run -
@@ -94,7 +106,7 @@ docker build -t capem/flask .
 ```
 OR run with build argument, no need to change the `ARG db_url` in this case
 ```bash
-docker build --build-arg db_url=postgres://capem:pass@192.168.0.107:5432/postgres -t capem/flask . 
+docker build --build-arg db_url=your_db_uri_here -t capem/flask . 
 ```
 
 Then just start with the shell file
@@ -106,7 +118,6 @@ OR run with this command
 docker run --name capem -v $(pwd)/config:/app/config -p 8003:8003 capem/flask
 ```
 Make sure the config file is the proper directory. Should be in `/config`.
-
 
 You can change port from `gunicorn_starter.sh` file. *Also for production you can tweak with workers and threads.*
 
