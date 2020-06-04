@@ -11,13 +11,13 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/620b4efcf9e41d74cb00/maintainability)](https://codeclimate.com/github/Ananto30/cap-em/maintainability)
 [![Code Climate technical debt](https://img.shields.io/codeclimate/tech-debt/Ananto30/cap-em?logo=Code%20Climate)](https://codeclimate.com/github/Ananto30/cap-em/trends/technical_debt)
 
-The next generation limit tracker! If you are working in a fast growing company (it doesn't matter) you might have faced a situation where you need rate limit your api with several configurations. In that case rather rate limiting your API you can use Cap'em as a service to track your resource usage with limiters. 
+The next generation limit tracker! If you are working in a fast growing company (it doesn't matter) you might have faced a situation where you need rate limit your api with several configurations. In that case rather rate limiting your API you can use Cap'em as a service to track your resource usage with limiters. You can deploy this as an independent service ([Docker-ready](https://hub.docker.com/r/ananto30/cap-em)).
 
-Please refer to [Usage](#Usage) for details.
+**Index: [Usage](#Usage) | [Feature & Principle](#feature--principle) | [Installation-Dev](#installation-dev) | [Docker](#docker) | [Tests](#tests) | [Local Development](#local-development) | [Production](##production-half-ready) | [TODO](#todo)**
 
 ## Feature & Principle
 
-Say you have a resource called Email. You want to limit this email change capacity for users. This is set to twice per day. You are very happy to code with that, now the requirements come again and said twice per day but not more than one per hour, and monthly limit should be 5 🤬 Now Cap-em will come to the rescue! It's an independent service, so you can deploy in your microservices or SOA.
+Say you have a resource called Email. You want to limit this email change capacity for users. This is set to twice per day. You are very happy to code with that, now the requirements come again and said twice per day but not more than one per hour, and monthly limit should be 5 🤬Now Cap-em will come to the rescue! It's an independent service, so you can deploy in your microservices or SOA.
 
 You can have different configurations like above or as many configs as you like with several resources. All you need is to make a config file, and use the service right away! Please refer to [Usage](#Usage) for details.
 
@@ -32,16 +32,16 @@ sh start_server.sh
 # create table manually, or by this command
 python -m app.create_table
 ```
-How intuitive! 😅 The local server will by default use a SQLite `'sqlite:///capem.db'`, you can find this in the `db/base.py` file. If you want to use the Postgres from the docker-compose - 
+How intuitive! 😅The local server will by default use a SQLite `'sqlite:///capem.db'`, you can find this in the `db/base.py` file. If you want to use the Postgres from the docker-compose - 
 ```bash
 docker-compose up -d
-DB_URL=postgres://capem:pass@localhost:5432/postgres sh start_server.sh
+DB_URI=postgres://capem:pass@localhost:5432/postgres sh start_server.sh
 ```
-Change the `DB_URL` as per your relational DB uri.
+Change the `DB_URI` as per your relational DB uri.
 
 IMPORTANT!!: Please note that in this case, we are using Gunicorn and we are copying our config file from source directory to app directory, so please remove that file after playing locally, specially before building a docker image, the docker image has a shared volume to work with the file.
 
-Second, you can just use Docker! 😁 Make sure you have changed the `db_url` arg in the `build_docker.sh` file (if you are not using the docker-compose postgres). [Here](#docker-out-of-the-box-deployment) is the detailed Docker example.
+Second, you can just use Docker! 😁 Make sure you have changed the `DB_URI` environment variable in the `start_docker.sh` file. [Here](#docker) is the detailed Docker example.
 ```bash
 docker-compose up -d
 sh build_docker.sh
@@ -98,42 +98,58 @@ You can also see the configs -
 curl --location --request GET 'localhost:8003/config'
 ```
 
-## Docker [Out of the box deployment]
+## Docker
 
-This is the much preferred way to use the service out of the box. And kind of production ready. Just make sure to change the `ARG db_url` in `Dockerfile` to your expected DB, then run -
+### Local/Dev
+
+If you want to run it locally, just clone the repo and build the image -
 ```bash
+git clone https://github.com/Ananto30/cap-em.git
+cd cap-em
+docker-compose up -d  # if you want to use the docker postgres
 docker build -t capem/flask . 
 ```
-OR run with build argument, no need to change the `ARG db_url` in this case
-```bash
-docker build --build-arg db_url=your_db_uri_here -t capem/flask . 
-```
 
-Then just start with the shell file
+Then just start with the shell file if you want to use the docker postgres (you may want to change the environment variable `DB_URI` with your ip)
 ```bash
 sh start_docker.sh
 ```
 OR run with this command 
 ```bash
-docker run --name capem -v $(pwd)/config:/app/config -p 8003:8003 capem/flask
+docker run --name capem -v $(pwd)/config:/app/config -p 8003:8003 -e DB_URI=your_db_uri capem/flask
 ```
 Make sure the config file is the proper directory. Should be in `/config`.
 
-You can change port from `gunicorn_starter.sh` file. *Also for production you can tweak with workers and threads.*
+You can change base service port from `gunicorn_starter.sh` file. *Also for production you can tweak with workers and threads.*
+
+### Production
+
+This is the much preferred way to use the service out of the box. And kind of production ready. You don't need to clone the repo, you can pull the image from docker hub.
+```bash
+docker pull ananto30/cap-em
+```
+You need to add the config directory `./config` and put the `confgi.txt` file there (`./config/config.txt`). Then run with this command - 
+```bash
+docker run --name capem -v $(pwd)/config:/app/config -p 8003:8003 -e DB_URI=your_db_uri ananto30/cap-em
+```
+Make sure to properly configure `-v $(pwd)/config:/app/config` and `-e DB_URI=your_db_uri` for your production.
+
+This config volume is under your control. You can choose to use an existing volume of your own, or create a new one, or use like above (create in the directory from where you want to run the image).
+
 
 ## Tests
 
-Tests are better to be run with SQLite database. Because there will be entries in DB and those should be cleared after each test is run. So **if you use any other than sqlite, make sure to delete the entries to pass tests**. To use SQLite you need to set the environment variable `DB_URL` -
+Tests are better to be run with SQLite database. Because there will be entries in DB and those should be cleared after each test is run. So **if you use any other than sqlite, make sure to delete the entries to pass tests**. To use SQLite you need to set the environment variable `DB_URI` -
 ```bash
-DB_URL=sqlite:///capem-ut.db python -m pytest 
+DB_URI=sqlite:///capem-ut.db python -m pytest 
 ```
 
 To run tests with coverage - 
 ```bash
-DB_URL=sqlite:///capem-ut.db python -m pytest --cov=./app
+DB_URI=sqlite:///capem-ut.db python -m pytest --cov=./app
 ```
 
-## Development [Locally]
+## Local Development
 
 There's several way to run locally for development (though this an independent and complete service, encouraged to use out of the box, but you may modify on your own).
 
@@ -144,14 +160,14 @@ pip install -r requirements.txt
 python -m app.create_table # create table manually, or by this command
 python -m app.main
 ```
-This uses the SQLite DB, to change that, use `DB_URL` env variable.
+This uses the SQLite DB, to change that, use `DB_URI` env variable.
 
 
 ## Production [Half ready]
 
 Need to optimize Docker and indexing DB (not sure).
 
-But still you can use in production out of the box. Preferred way is to use the [Docker](#docker-out-of-the-box-deployment).
+But still you can use in production out of the box. Preferred way is to use the [Docker production](#production).
 
 
 ## TODO
