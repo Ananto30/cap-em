@@ -28,7 +28,7 @@ pycodestyle==2.6.0
 pyflakes==2.2.0
 pylint==2.5.3
 pyparsing==2.4.7
-pytest==6.0.0
+pytest==6.0.1
 pytest-cov==2.10.0
 pytz==2020.1
 requests==2.24.0
