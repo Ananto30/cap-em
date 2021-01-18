@@ -29,7 +29,7 @@ pyflakes==2.2.0
 pylint==2.6.0
 pyparsing==2.4.7
 pytest==6.2.1
-pytest-cov==2.10.1
+pytest-cov==2.11.0
 pytz==2020.5
 requests==2.25.1
 six==1.15.0
