@@ -1,7 +1,7 @@
 aniso8601==8.1.1
 astroid==2.4.2
 attrs==20.3.0
-autopep8==1.5.4
+autopep8==1.5.5
 certifi==2020.12.5
 chardet==4.0.0
 click==7.1.2
