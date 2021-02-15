@@ -1,5 +1,5 @@
 aniso8601==8.1.1
-astroid==2.4.2
+astroid==2.5
 attrs==20.3.0
 autopep8==1.5.5
 certifi==2020.12.5
