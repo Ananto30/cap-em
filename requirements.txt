@@ -15,7 +15,7 @@ idna==3.0
 importlib-metadata==3.3.0
 isort==5.7.0
 itsdangerous==1.1.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 lazy-object-proxy==1.5.2
 MarkupSafe==1.1.1
 mccabe==0.6.1
