@@ -32,7 +32,7 @@ pytest==6.2.4
 pytest-cov==2.11.1
 pytz==2021.1
 requests==2.25.1
-six==1.15.0
+six==1.16.0
 SQLAlchemy==1.4.13
 toml==0.10.2
 typed-ast==1.4.3
