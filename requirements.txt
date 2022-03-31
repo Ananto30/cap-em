@@ -33,7 +33,7 @@ pytest-cov==3.0.0
 pytz==2022.1
 requests==2.27.1
 six==1.16.0
-SQLAlchemy==1.4.32
+SQLAlchemy==1.4.33
 toml==0.10.2
 typed-ast==1.5.2
 urllib3==1.26.9
