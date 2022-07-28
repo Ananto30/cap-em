@@ -38,6 +38,6 @@ toml==0.10.2
 typed-ast==1.5.4
 urllib3==1.26.11
 wcwidth==0.2.5
-Werkzeug==2.2.0
+Werkzeug==2.2.1
 wrapt==1.14.1
 zipp==3.8.1
