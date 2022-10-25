@@ -22,7 +22,7 @@ mccabe==0.7.0
 more-itertools==9.0.0
 packaging==21.3
 pluggy==1.0.0
-psycopg2-binary==2.9.4
+psycopg2-binary==2.9.5
 py==1.11.0
 pycodestyle==2.9.1
 pyflakes==2.5.0
