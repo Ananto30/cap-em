@@ -26,7 +26,7 @@ psycopg2-binary==2.9.5
 py==1.11.0
 pycodestyle==2.9.1
 pyflakes==2.5.0
-pylint==2.15.5
+pylint==2.15.6
 pyparsing==3.0.9
 pytest==7.2.0
 pytest-cov==4.0.0
