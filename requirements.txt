@@ -36,7 +36,7 @@ six==1.16.0
 SQLAlchemy==1.4.44
 toml==0.10.2
 typed-ast==1.5.4
-urllib3==1.26.12
+urllib3==1.26.13
 wcwidth==0.2.5
 Werkzeug==2.2.2
 wrapt==1.14.1
