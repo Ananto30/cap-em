@@ -12,7 +12,9 @@ app = Flask("cap-em")
 api = Api(app)
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(format='%(asctime)s | %(process)d | %(module)s : %(message)s', level=logging.INFO)
+logging.basicConfig(
+    format="%(asctime)s | %(process)d | %(module)s : %(message)s", level=logging.INFO
+)
 
 # Initialize services and dependency injections
 session = Session()

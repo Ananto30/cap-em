@@ -21,30 +21,30 @@ You can have different configurations like above or as many configs as you like 
 
 There's several way to install and run.
 
-First, let's see the typical way, using Python (3.7.3 preffered). 
-```bash
-pip install -r requirements.txt
-sh start_server.sh
-# create table manually, or by this command
-python -m app.create_table
-```
-How intuitive! 😅The local server will by default use a SQLite `'sqlite:///capem.db'`, you can find this in the `db/base.py` file. If you want to use the Postgres from the docker-compose - 
-```bash
-docker-compose up -d
-DB_URI=postgres://capem:pass@localhost:5432/postgres sh start_server.sh
-```
-Change the `DB_URI` as per your relational DB uri.
+- First, let's see the typical way, using Python (3.8+). 
+	```bash
+	pip install -r requirements.txt
+	make run
+	# create table manually, or by this command
+	python -m app.create_table
+	```
+	How intuitive! 😅The local server will by default use a SQLite `'sqlite:///capem.db'`, you can find this in the `db/base.py` file. If you want to use the Postgres from the docker-compose - 
+	```bash
+	docker-compose up -d
+	DB_URI=postgres://capem:pass@localhost:5432/postgres make run
+	```
+	Change the `DB_URI` as per your relational DB uri.
 
-IMPORTANT!!: Please note that in this case, we are using Gunicorn and we are copying our config file from source directory to app directory, so please remove that file after playing locally, specially before building a docker image, the docker image has a shared volume to work with the file.
+	IMPORTANT!!: Please note that in this case, we are using Gunicorn and we are copying our config file from source directory to app directory, so please remove that file after playing locally, specially before building a docker image, the docker image has a shared volume to work with the file.
 
-Second, you can just use Docker! 😁 Make sure you have changed the `DB_URI` environment variable in the `start_docker.sh` file. [Here](#docker) is the detailed Docker example.
-```bash
-docker-compose up -d
-sh build_docker.sh
-sh start_docker.sh
-```
+- Second, you can just use Docker! 😁 Make sure you have changed the `DB_URI` in the Makefile. [Here](#docker) is the detailed Docker example.
+	```bash
+	docker-compose up -d
+	make docker-build
+	make docker-run
+	```
 
-It will start running in http://localhost:8003
+	It will start running in http://localhost:8003
 
 ## Usage
 
@@ -108,7 +108,7 @@ docker build -t capem/flask .
 
 Then just start with the shell file if you want to use the docker postgres (you may want to change the environment variable `DB_URI` with your ip)
 ```bash
-sh start_docker.sh
+make docker-run
 ```
 OR run with this command 
 ```bash
