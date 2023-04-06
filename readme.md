@@ -2,13 +2,12 @@
 
 ![GitHub](https://img.shields.io/github/license/Ananto30/cap-em)
 [![Build Status](https://travis-ci.com/Ananto30/cap-em.svg?branch=master)](https://travis-ci.com/Ananto30/cap-em)
-[![codecov](https://codecov.io/gh/Ananto30/cap-em/branch/master/graph/badge.svg)](https://codecov.io/gh/Ananto30/cap-em)
+![Dependencies](https://img.shields.io/librariesio/github/ananto30/cap-em)
 ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/ananto30/cap-em?logo=docker)
 
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/Ananto30/cap-em.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Ananto30/cap-em/alerts/)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/Ananto30/cap-em.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Ananto30/cap-em/context:python)
 [![Maintainability](https://api.codeclimate.com/v1/badges/620b4efcf9e41d74cb00/maintainability)](https://codeclimate.com/github/Ananto30/cap-em/maintainability)
 [![Code Climate technical debt](https://img.shields.io/codeclimate/tech-debt/Ananto30/cap-em?logo=Code%20Climate)](https://codeclimate.com/github/Ananto30/cap-em/trends/technical_debt)
+[![codecov](https://codecov.io/gh/Ananto30/cap-em/branch/master/graph/badge.svg)](https://codecov.io/gh/Ananto30/cap-em)
 
 The next generation limit tracker! If you are working in a fast growing company (it doesn't matter) you might have faced a situation where you need rate limit your api with several configurations. In that case rather rate limiting your API you can use Cap'em as a service to track your resource usage with limiters. You can deploy this as an independent service ([Docker-ready](https://hub.docker.com/r/ananto30/cap-em)).
 
