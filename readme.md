@@ -2,7 +2,6 @@
 
 ![GitHub](https://img.shields.io/github/license/Ananto30/cap-em)
 [![Build Status](https://travis-ci.com/Ananto30/cap-em.svg?branch=master)](https://travis-ci.com/Ananto30/cap-em)
-![Dependencies](https://img.shields.io/librariesio/github/ananto30/cap-em)
 ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/ananto30/cap-em?logo=docker)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/620b4efcf9e41d74cb00/maintainability)](https://codeclimate.com/github/Ananto30/cap-em/maintainability)
