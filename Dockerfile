@@ -1,11 +1,12 @@
-FROM python:3.8-slim
+FROM python:3.10-slim
 
 WORKDIR /app
 
 COPY ./requirements.txt .
-RUN pip3 install -r requirements.txt
+RUN pip install -r requirements.txt
 
-COPY ./app ./app
-COPY ./gunicorn_starter.sh ./
+COPY ./src ./src
+COPY ./uvicorn_starter.sh .
+RUN chmod +x uvicorn_starter.sh
 
-ENTRYPOINT ["./gunicorn_starter.sh"]
+ENTRYPOINT ["./uvicorn_starter.sh"]

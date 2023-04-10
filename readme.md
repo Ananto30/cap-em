@@ -8,173 +8,139 @@
 [![Code Climate technical debt](https://img.shields.io/codeclimate/tech-debt/Ananto30/cap-em?logo=Code%20Climate)](https://codeclimate.com/github/Ananto30/cap-em/trends/technical_debt)
 [![codecov](https://codecov.io/gh/Ananto30/cap-em/branch/master/graph/badge.svg)](https://codecov.io/gh/Ananto30/cap-em)
 
-The next generation limit tracker! If you are working in a fast growing company (it doesn't matter) you might have faced a situation where you need rate limit your api with several configurations. In that case rather rate limiting your API you can use Cap'em as a service to track your resource usage with limiters. You can deploy this as an independent service ([Docker-ready](https://hub.docker.com/r/ananto30/cap-em)).
-
-## Feature & Principle
-
-Say you have a resource called Email. You want to limit this email change capacity for users. This is set to twice per day. You are very happy to code with that, now the requirements come again and said twice per day but not more than one per hour, and monthly limit should be 5 🤬Now Cap-em will come to the rescue! It's an independent service, so you can deploy in your microservices or SOA.
-
-You can have different configurations like above or as many configs as you like with several resources. All you need is to make a config file, and use the service right away! Please refer to [Usage](#Usage) for details.
-
-## Installation-Dev
-
-There's several way to install and run.
-
-- First, let's see the typical way, using Python (3.8+). 
-	```bash
-	pip install -r requirements.txt
-	make run
-	# create table manually, or by this command
-	python -m app.create_table
-	```
-	How intuitive! 😅The local server will by default use a SQLite `'sqlite:///capem.db'`, you can find this in the `db/base.py` file. If you want to use the Postgres from the docker-compose - 
-	```bash
-	docker-compose up -d
-	DB_URI=postgres://capem:pass@localhost:5432/postgres make run
-	```
-	Change the `DB_URI` as per your relational DB uri.
-
-	IMPORTANT!!: Please note that in this case, we are using Gunicorn and we are copying our config file from source directory to app directory, so please remove that file after playing locally, specially before building a docker image, the docker image has a shared volume to work with the file.
-
-- Second, you can just use Docker! 😁 Make sure you have changed the `DB_URI` in the Makefile. [Here](#docker) is the detailed Docker example.
-	```bash
-	docker-compose up -d
-	make docker-build
-	make docker-run
-	```
-
-	It will start running in http://localhost:8003
+Easy to use **resource usage tracker** (can be used as a rate limiter). Define a config file and use it right away! Use the **production ready** [Docker](#run-it-now-🚀) image or run it locally.
 
 ## Usage
 
-For now only the REST API's are available to use.
+*   Define a config file in the format below -
 
-First we need to make the config file. An example can be found in the `config/config.txt`. All you need is to edit this file.
-
-Configurations are like this - 
-```
-email,60:2,3600:5,86400:6
-```
-What does it mean? The first one, `email` is the resource. Then `60:2` means in 60 seconds the limit is 2 to change/access the resource. The rest are configs for different time intervals and limits. Please follow the format as it is. The **time increases in ascending order**. And `60:5,3600:2` doesn't make sense, yet it will work. 
-
-Like the problemd mentioned [above](#feature--principle). The configuration will be - 
-```
-email,3600:1,86400:2,2592000:5
-```
-So add configurations like this, new configs in new lines. Please note that everything is in **SECONDS**.
-
-### API
-
-Now let's come to the API usage. For checking the limit use this - 
-```bash
-curl --location --request POST 'localhost:8003/limit/check' \
---header 'Content-Type: application/json' \
---data-raw '{
-	"resource_name": "email",
-	"access_id": "ananto"
-}'
-```
-This returns `has_limit` which is boolean, and `access_in` which is int. `access_in` returns 0 if `has_limit` is true, otherwise returns how many seconds left to use that resource again.
-
-To increase usage, use this - 
-```bash
-curl --location --request POST 'localhost:8003/add/usage' \
---header 'Content-Type: application/json' \
---data-raw '{
-	"resource_name": "email",
-	"access_id": "ananto"
-}'
-```
-After successful `/limit/check` you may `/add/usage`. But be cautious that you don't `/add/usage` without serving your user. The case can be like this - user "dd45bi6" wants to edit the email, you check the limit with `/limit/check`, if they get `has_limit` true, let them edit the email, after successful email change, you increase the resource usage by `/add/usage`.
-
-
-You can also see the configs -
-```bash
-curl --location --request GET 'localhost:8003/config'
+```yaml
+<resource_name>:
+    <time>: <limit>
 ```
 
-## Docker
+As an example -
 
-### Local/Dev
-
-If you want to run it locally, just clone the repo and build the image -
-```bash
-git clone https://github.com/Ananto30/cap-em.git
-cd cap-em
-docker-compose up -d  # if you want to use the docker postgres
-docker build -t capem/flask . 
+```yaml
+email:
+    1m: 2
+    1h: 5
+    1d: 6
 ```
 
-Then just start with the shell file if you want to use the docker postgres (you may want to change the environment variable `DB_URI` with your ip)
-```bash
-make docker-run
-```
-OR run with this command 
-```bash
-docker run --name capem -v $(pwd)/config:/app/config -p 8003:8003 -e DB_URI=your_db_uri capem/flask
-```
-Make sure the config file is the proper directory. Should be in `/config`.
+Allowed time units are `s`, `m`, `h`, `d`, `w`, `M`, `y`. The time unit should be in ascending order. For example, `1m: 2, 1h: 5` is valid, but `1h: 5, 1m: 2` is not.
 
-You can change base service port from `gunicorn_starter.sh` file. *Also for production you can tweak with workers and threads.*
+*   Then just use the API to check the limit and track the usage.
 
-### Production
+    *   Get usage availability
 
-This is the much preferred way to use the service out of the box. And kind of production ready. You don't need to clone the repo, you can pull the image from docker hub.
-```bash
-docker pull ananto30/cap-em
-```
-You need to add the config directory `./config` and put the `confgi.txt` file there (`./config/config.txt`). Then run with this command - 
-```bash
-docker run --name capem -v $(pwd)/config:/app/config -p 8003:8003 -e DB_URI=your_db_uri ananto30/cap-em
-```
-Make sure to properly configure `-v $(pwd)/config:/app/config` and `-e DB_URI=your_db_uri` for your production.
+        ```bash
+        curl -H "Access-ID: 123" http://localhost:8000/api/v1/usage/email
+        ```
 
-This config volume is under your control. You can choose to use an existing volume of your own, or create a new one, or use like above (create in the directory from where you want to run the image).
+        ```json
+        {
+            "access_in_ms": 0
+        }
+        ```
 
+        This means the user can access the resource right now.
 
-## Tests
+    <!---->
+
+    *   Register a usage
+
+        ```bash
+        curl -X POST -H "Access-ID: 123" http://localhost:8000/api/v1/usage/email
+        ```
+
+Notice that the `Access-ID` header is required. This is the unique identifier for the user or any other entity that is using the resource. This is used to track the usage for that perticular entity.
+
+## Why Cap'em? 🤔
+
+Say you have a resource called Email. You want to limit this email change capacity for users. This is set to twice per day. You are very happy to code with that, now the requirements come again and said twice per day but not more than one per hour, and monthly limit should be 5 🤬 Now Cap-em will come to the rescue! It's an independent service, so you can deploy in your microservices or SOA.
+
+You can have different configurations like above or as many configs as you like with several resources. All you need is to make a config file, and use the service right away!
+
+## Run it now! 🚀
+
+    docker pull ananto30/cap-em
+    docker run -p 8000:8000 -e DB_URI=<database_connection_url> -e CONFIG=<base64_of_config_file> ananto30/cap-em
+
+2 environment variables are required to run the service. `DB_URI` is the database connection url. `CONFIG` is the base64 encoded config file. Check the [Makefile#L6](/Makefile#L6) to see how to encode the config file.
+
+DB\_URI is in SQLAlchemy format. For example -
+`postgresql://user:password@\<HOST>:5432/capem`
+
+Also note that the database should be created before running the service. The service will not create the database for you. It will only create the tables.
+
+## Available APIs 📚
+
+*   **/api/v1/help**
+    *   GET
+        *   Get the help doc
+*   **/api/v1/configs**
+    *   GET
+        *   Check the loaded configs (yaml file)
+*   **/api/v1/usage/{resource\_name}**
+    *   GET
+        *   Get the usage availability in milliseconds
+    *   POST
+        *   Register a usage
+
+## Local development 🛠
+
+*   Setup project
+
+    ```bash
+    make setup
+    ```
+
+*   Run the service
+
+    ```bash
+    make run
+    ```
+
+### Docker 🐳
+
+*   Build the image
+
+    ```bash
+    make docker-build
+    ```
+*   Run the image
+
+    ```bash
+    make docker-run
+    ```
+
+The Makefile try to get your IP and set in the `DB_URI` environment variable. If it fails, you need to set it manually.
+
+## Tests 🧪
 
 Tests are better to be run with SQLite database. Because there will be entries in DB and those should be cleared after each test is run. So **if you use any other than sqlite, make sure to delete the entries to pass tests**. To use SQLite you need to set the environment variable `DB_URI` -
-```bash
-DB_URI=sqlite:///capem-ut.db python -m pytest 
-```
-
-To run tests with coverage - 
-```bash
-DB_URI=sqlite:///capem-ut.db python -m pytest --cov=./app
-```
-
-## Local Development
-
-There's several way to run locally for development (though this an independent and complete service, encouraged to use out of the box, but you may modify on your own).
-
-You can follow the [Installation-Dev](#installation-dev) to run locally, but for solely development purpose you can run like this - 
 
 ```bash
-pip install -r requirements.txt
-python -m app.create_table # create table manually, or by this command
-python -m app.main
+make test
 ```
-This uses the SQLite DB, to change that, use `DB_URI` env variable.
 
+Custom DB -
 
-## Production [Half ready]
+```bash
+DB_URI=sqlite:///capem-ut.db make test
+```
 
-Need to optimize Docker and indexing DB (not sure).
+## TODO 📝
 
-But still you can use in production out of the box. Preferred way is to use the [Docker production](#production).
-
-
-## TODO
 Priority
-- A persistant way for configs? Like redis, so that multiple workers can get the same config
-- Generalize the volume thing, this is somewhat a dependency
-- Local caching is good but how to share the configs with different workers when config get changed
-- Endpoint(s) to up new configs, in bulk or single
+
+*   A persistant way for configs? Like redis, so that multiple workers can get the same config
+*   Local caching is good but how to share the configs with different workers when config get changed
+*   Endpoint(s) to load/update configs, in bulk or single
 
 Less priority
-- A docker-compose for whole project up in local
-- Add more tests
-- gRPC?
-- Messaging (for event-driven services)
-- Non-relational DB support?
+
+*   gRPC
+*   Messaging (for event-driven services)
+*   Non-relational DB support
