@@ -1,6 +1,7 @@
-Flask==2.2.3
-Flask-RESTful==0.3.9
-sqlalchemy==2.0.9
+falcon==3.1.1
 psycopg2-binary==2.9.6
+sqlalchemy==2.0.9
+uvicorn==0.21.1
+PyYAML==6.0
 pytest
 pytest-cov

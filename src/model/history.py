@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 
-from app.db.base import Base
+from src.db.base import Base
 
 
 class History(Base):
@@ -8,5 +8,5 @@ class History(Base):
 
     id = Column(Integer, primary_key=True)
     access_id = Column(String, index=True)
-    resource_name = Column(String)
-    access_at = Column(Integer)
+    resource_name = Column(String, index=True)
+    access_at = Column(Integer, index=True)
