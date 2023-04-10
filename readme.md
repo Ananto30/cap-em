@@ -1,12 +1,12 @@
 # Cap'em
 
 ![GitHub](https://img.shields.io/github/license/Ananto30/cap-em)
-[![Build Status](https://travis-ci.com/Ananto30/cap-em.svg?branch=master)](https://travis-ci.com/Ananto30/cap-em)
+[![Build Status](https://travis-ci.com/Ananto30/cap-em.svg?branch=main)](https://travis-ci.com/Ananto30/cap-em)
 ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/ananto30/cap-em?logo=docker)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/620b4efcf9e41d74cb00/maintainability)](https://codeclimate.com/github/Ananto30/cap-em/maintainability)
 [![Code Climate technical debt](https://img.shields.io/codeclimate/tech-debt/Ananto30/cap-em?logo=Code%20Climate)](https://codeclimate.com/github/Ananto30/cap-em/trends/technical_debt)
-[![codecov](https://codecov.io/gh/Ananto30/cap-em/branch/master/graph/badge.svg)](https://codecov.io/gh/Ananto30/cap-em)
+[![codecov](https://codecov.io/gh/Ananto30/cap-em/branch/main/graph/badge.svg)](https://codecov.io/gh/Ananto30/cap-em)
 
 Easy to use **resource usage tracker** (can be used as a rate limiter). Define a config file and use it right away! Use the **production ready** [Docker](#run-it-now-🚀) image or run it locally.
 
