@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-IP := $(shell ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | head -1)
+IP := $(shell ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | tail -1)
 # env
 export DB_URI=postgresql://capem:pass@$(IP):5432/postgres
 export CONFIG := $(shell cat ./config/example.config.yml | base64)
@@ -42,6 +42,11 @@ docker-build:
 
 docker-run:
 	docker-compose up -d
+	until docker exec capem-postgres pg_isready --username=capem --host=localhost; do sleep 1; done
 	@echo Config: $(CONFIG)
 	@echo DB_URI: $(DB_URI)
-	docker run -e DB_URI -e CONFIG -p 8000:8000 capem/falcon
+	docker run --name capem -e DB_URI -e CONFIG -p 8000:8000 capem/falcon
+
+docker-stop:
+	docker-compose down
+	docker rm -f capem

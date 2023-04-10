@@ -1,18 +1,18 @@
 # Cap'em
 
 ![GitHub](https://img.shields.io/github/license/Ananto30/cap-em)
-[![Build Status](https://travis-ci.com/Ananto30/cap-em.svg?branch=main)](https://travis-ci.com/Ananto30/cap-em)
+[![codecov](https://codecov.io/gh/Ananto30/cap-em/branch/main/graph/badge.svg)](https://codecov.io/gh/Ananto30/cap-em)
 ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/ananto30/cap-em?logo=docker)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/620b4efcf9e41d74cb00/maintainability)](https://codeclimate.com/github/Ananto30/cap-em/maintainability)
 [![Code Climate technical debt](https://img.shields.io/codeclimate/tech-debt/Ananto30/cap-em?logo=Code%20Climate)](https://codeclimate.com/github/Ananto30/cap-em/trends/technical_debt)
-[![codecov](https://codecov.io/gh/Ananto30/cap-em/branch/main/graph/badge.svg)](https://codecov.io/gh/Ananto30/cap-em)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/9bbb9f74a480493f9891e9ea015e4eb0)](https://app.codacy.com/gh/Ananto30/cap-em/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 Easy to use **resource usage tracker** (can be used as a rate limiter). Define a config file and use it right away! Use the **production ready** [Docker](#run-it-now-🚀) image or run it locally.
 
 ## Usage
 
-*   Define a config file in the format below -
+*   Define a config file (yaml) in the format below -
 
 ```yaml
 <resource_name>:
