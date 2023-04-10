@@ -50,3 +50,11 @@ docker-run:
 docker-stop:
 	docker-compose down
 	docker rm -f capem
+
+prod-image-run:
+	docker-compose up -d
+	until docker exec capem-postgres pg_isready --username=capem --host=localhost; do sleep 1; done
+	docker pull ananto30/cap-em
+	@echo Config: $(CONFIG)
+	@echo DB_URI: $(DB_URI)
+	docker run --name capem -e DB_URI -e CONFIG -p 8000:8000 ananto30/cap-em
